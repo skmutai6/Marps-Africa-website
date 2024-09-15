@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
-import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaCheckCircle } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +12,7 @@ const Contact = () => {
   });
 
   const [status, setStatus] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,32 +24,49 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     setStatus('Sending...');
 
     const serviceID = 'service_13ygtrs';
-    const templateID = 'template_n21fa3e';
+    const templateID = 'template_n21fa3e'; // Template for sending message to yourself
+    const confirmationTemplateID = 'template_6n8ui2t'; // Template for sending confirmation email to the user
     const publicKey = 'L2_7PSPdo8vlmJqDm';
 
+    // Template parameters for the original email (sent to you or the recipient)
     const templateParams = {
-      name: formData.name,
-      email: formData.email,
+      from_name: formData.name,
+      from_email: formData.email,
       message: formData.message,
-      to_name: 'Recipient Name'
+      to_name: 'Recipient Name', // Change as per your needs
     };
 
+    // Template parameters for the confirmation email (sent to the user)
+    const confirmationParams = {
+      from_name: formData.name, // User's name
+      to_email: formData.email, // User's email
+      reply_to: formData.email, // Reply-to address
+    };
+
+    // Send the original email first
     emailjs.send(serviceID, templateID, templateParams, publicKey)
       .then(() => {
-        setStatus('Message sent successfully!');
+        // Send the confirmation email to the user
+        return emailjs.send(serviceID, confirmationTemplateID, confirmationParams, publicKey);
+      })
+      .then(() => {
+        toast.success('Message sent successfully! A confirmation email has been sent to you.');
         setFormData({ name: '', email: '', message: '' });
+        setIsSubmitting(false);
       })
       .catch((error) => {
         console.error('Error:', error);
-        setStatus('Failed to send message. Please try again.');
+        toast.error('Failed to send message. Please try again.');
+        setIsSubmitting(false);
       });
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8 bg-white">
+    <div className="max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8 bg-white my-4 rounded-lg">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         
         {/* Information Section */}
@@ -73,8 +93,8 @@ const Contact = () => {
           {/* Embedded Map with Hover Effect */}
           <div className="mt-6 hover:scale-105 transition-transform duration-300 ease-in-out">
             <iframe
-              title="Company Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2424.508227425873!2d-73.99224868450153!3d40.75797927932629!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259af07e1f3ff%3A0x1b3c3dff450e4893!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1632332873682!5m2!1sen!2sus"
+              title="Nairobi CBD Location"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15955.46999383871!2d36.81704731387715!3d-1.283370999052714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f10df672ab7c5%3A0x3ac11bfc0c9ac2f2!2sBazaar%20Plaza!5e0!3m2!1sen!2ske!4v1694793921856!5m2!1sen!2ske"
               className="w-full h-64 border-0 rounded-lg shadow-md"
               allowFullScreen=""
               loading="lazy"
@@ -93,6 +113,7 @@ const Contact = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
+                disabled={isSubmitting}
                 className="w-full p-3 border border-blue-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 transition duration-300 ease-in-out hover:shadow-lg"
                 placeholder="MarpsAfrica"
                 onFocus={(e) => e.target.placeholder = ''}
@@ -107,10 +128,11 @@ const Contact = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
+                disabled={isSubmitting}
                 className="w-full p-3 border border-blue-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 transition duration-300 ease-in-out hover:shadow-lg"
-                placeholder=" MarpsAfrica@example.com"
+                placeholder="MarpsAfrica@example.com"
                 onFocus={(e) => e.target.placeholder = ''}
-                onBlur={(e) => e.target.placeholder = ' MarpsAfrica@example.com'}
+                onBlur={(e) => e.target.placeholder = 'MarpsAfrica@example.com'}
               />
             </div>
             <div>
@@ -120,6 +142,7 @@ const Contact = () => {
                 value={formData.message}
                 onChange={handleChange}
                 required
+                disabled={isSubmitting}
                 className="w-full p-3 border border-blue-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 placeholder-gray-500 transition duration-300 ease-in-out hover:shadow-lg"
                 rows="5"
                 placeholder="Hello, this is Peter, I'd like to discuss project details..."
@@ -131,16 +154,17 @@ const Contact = () => {
             {/* Right-Aligned Button */}
             <button
               type="submit"
+              disabled={isSubmitting}
               className="ml-auto block px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-blue-600 hover:to-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50"
             >
-              Send Message
+              {isSubmitting ? 'Sending...' : 'Send Message'}
             </button>
-
-            {/* Status Message */}
-            <p className="text-center mt-4 text-gray-500">{status}</p>
           </form>
         </div>
       </div>
+      
+      {/* Toast Container */}
+      <ToastContainer />
     </div>
   );
 };
