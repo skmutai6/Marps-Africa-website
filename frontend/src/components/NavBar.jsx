@@ -41,12 +41,8 @@ const Navbar = () => {
                     <li className="flex items-start p-2 bg-green-100 hover:bg-green-200">
                       <FaLaptopCode className="h-6 w-6 mr-2 text-green-700" />
                       <div>
-                        <h3 className="font-bold text-black">
-                          Software Development
-                        </h3>
-                        <p className="text-gray-500 text-sm">
-                          We plan, design and develop robust software.
-                        </p>
+                        <h3 className="font-bold text-black">Software Development</h3>
+                        <p className="text-gray-500 text-sm">We plan, design and develop robust software applications.</p>
                       </div>
                     </li>
                     <li className="flex items-start p-2 bg-green-100 hover:bg-green-200">
