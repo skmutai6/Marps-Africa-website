@@ -28,23 +28,23 @@ const Contact = () => {
     setStatus('Sending...');
 
     const serviceID = 'service_13ygtrs';
-    const templateID = 'template_n21fa3e'; // Template for sending message to yourself
-    const confirmationTemplateID = 'template_6n8ui2t'; // Template for sending confirmation email to the user
+    const templateID = 'template_n21fa3e'; 
+    const confirmationTemplateID = 'template_6n8ui2t'; 
     const publicKey = 'L2_7PSPdo8vlmJqDm';
 
-    // Template parameters for the original email (sent to you or the recipient)
+   
     const templateParams = {
       from_name: formData.name,
       from_email: formData.email,
       message: formData.message,
-      to_name: 'Recipient Name', // Change as per your needs
+      to_name: 'Recipient Name', 
     };
 
-    // Template parameters for the confirmation email (sent to the user)
+ 
     const confirmationParams = {
-      from_name: formData.name, // User's name
-      to_email: formData.email, // User's email
-      reply_to: formData.email, // Reply-to address
+      from_name: formData.name, 
+      to_email: formData.email, 
+      reply_to: formData.email, 
     };
 
     // Send the original email first
@@ -69,7 +69,7 @@ const Contact = () => {
     <div className="max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8 bg-white my-4 rounded-lg">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         
-        {/* Information Section */}
+     
         <div className="p-6">
           <h2 className="text-3xl font-bold text-blue-700">Let’s level up your project, together</h2>
           <p className="mt-4 text-gray-600">
@@ -90,7 +90,7 @@ const Contact = () => {
             </li>
           </ul>
 
-          {/* Embedded Map with Hover Effect */}
+         
           <div className="mt-6 hover:scale-105 transition-transform duration-300 ease-in-out">
             <iframe
               title="Nairobi CBD Location"
@@ -102,7 +102,7 @@ const Contact = () => {
           </div>
         </div>
         
-        {/* Form Section */}
+      
         <div className="p-6 bg-gray-50 rounded-lg">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -151,7 +151,7 @@ const Contact = () => {
               />
             </div>
             
-            {/* Right-Aligned Button */}
+      
             <button
               type="submit"
               disabled={isSubmitting}
@@ -163,7 +163,6 @@ const Contact = () => {
         </div>
       </div>
       
-      {/* Toast Container */}
       <ToastContainer />
     </div>
   );
