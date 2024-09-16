@@ -49,13 +49,13 @@ const Portfolio = () => {
       <div
         className={`relative h-[70vh] bg-gray-900 text-white opacity-95 flex flex-col justify-between transition-opacity duration-1000 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}
         style={{
-          backgroundImage: 'url("https://media.istockphoto.com/id/1448246714/vector/abstract-polygonal-space-triangles-with-connecting-dots-and-lines-background-concept-for.jpg?s=612x612&w=0&k=20&c=5Bq5Pt8vHTYo4V82ZLSRGIr3y9sRA5q9KqOniVBomIc=")',
+          backgroundImage: 'url("https://media.istockphoto.com/id/1702810427/photo/wave-of-musical-sounds-abstract-background-with-interweaving-of-dots-and-lines-3d-rendering.jpg?s=612x612&w=0&k=20&c=GL6r9Cb-UL_5YYUHVev8KMEZR3pEVMCrwYtaPNznTNo=")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <nav className="w-full flex items-center justify-between p-6">
+        <nav className="w-full flex items-center justify-between mx-12 mt-12 p-6 ">
           <motion.div
             variants={FadeUp(0.5)}
             initial="hidden"
@@ -69,7 +69,7 @@ const Portfolio = () => {
         </nav>
 
         {/* Social Links */}
-        <div className="absolute left-6 bottom-10 flex flex-col space-y-4">
+        <div className="absolute left-6 bottom-10 flex flex-col mx-12 space-y-4">
           <a href="#" className="hover:opacity-75">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" className="w-6 h-6">
               <path fill="#0076b2" d="M116 3H12a8.91 8.91 0 00-9 8.8v104.42a8.91 8.91 0 009 8.78h104a8.93 8.93 0 009-8.81V11.77A8.93 8.93 0 00116 3z"/>
@@ -84,7 +84,7 @@ const Portfolio = () => {
         </div>
 
         {/* Banner Content */}
-        <div className="flex flex-col items-center text-center mt-auto mb-32 px-4">
+        <div className="flex flex-col items-center justify-center text-center mx-auto my-auto px-4">
           <motion.h1 
             variants={FadeUp(0.5)}
             initial="hidden"
