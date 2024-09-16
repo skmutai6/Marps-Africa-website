@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import blogData from "../mockData.json";
 import { updateMockData } from "../utils/updateMockData";
+import { FaWhatsapp, FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
 
 function BlogPost() {
   const { id } = useParams();
@@ -53,10 +54,17 @@ function BlogPost() {
 
 function ShareButtons() {
   const buttonColors = {
-    Facebook: "bg-blue-600",
-    Twitter: "bg-blue-400",
-    WhatsApp: "bg-green-500",
-    LinkedIn: "bg-blue-700",
+    Whatsapp: "bg-green-600 hover:bg-green-700 text-white",
+    Facebook: "bg-blue-700 hover:bg-blue-800 text-white",
+    X: "bg-black hover:bg-black text-white",
+    LinkedIn: "bg-blue-500 hover:bg-blue-600 text-white",
+  };
+
+  const iconComponents = {
+    Whatsapp: <FaWhatsapp />,
+    Facebook: <FaFacebook />,
+    Twitter: <FaTwitter />,
+    LinkedIn: <FaLinkedin />,
   };
 
   return (
@@ -68,9 +76,10 @@ function ShareButtons() {
             key={platform}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className={`${color} text-white px-4 py-2 rounded-full hover:opacity-90 transition duration-300`}
+            className={`${color} flex items-center space-x-2 text-white px-4 py-2 rounded-full hover:opacity-90 transition duration-300`}
           >
-            {platform}
+            {iconComponents[platform]}
+            <span>{platform}</span>
           </motion.button>
         ))}
       </div>
