@@ -127,6 +127,11 @@ const Navbar = () => {
               >
                 Resources
               </NavLink>
+
+              <NavLink to="/portfolio" className="text-gray-700 hover:text-black font-medium" activeClassName="text-black">
+                Portfolio
+              </NavLink>
+              <NavLink to="/blog" className="text-gray-700 hover:text-black font-medium" activeClassName="text-black">
               <NavLink
                 to="/blogs"
                 className="text-gray-700 hover:text-black font-medium"
