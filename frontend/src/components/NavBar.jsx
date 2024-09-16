@@ -132,6 +132,7 @@ const Navbar = () => {
                 Portfolio
               </NavLink>
               <NavLink to="/blog" className="text-gray-700 hover:text-black font-medium" activeClassName="text-black">
+              </NavLink>
               <NavLink
                 to="/blogs"
                 className="text-gray-700 hover:text-black font-medium"
