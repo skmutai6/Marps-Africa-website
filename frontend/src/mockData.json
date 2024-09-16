@@ -11,6 +11,18 @@
         "name": "Tech Enthusiast",
         "content": "This is fascinating! I wonder how soon we'll see practical applications in everyday cybersecurity.",
         "date": "June 15, 2024, 14:30:00"
+      },
+      {
+        "id": 1726449543551,
+        "name": "Anonymous",
+        "content": "comment",
+        "date": "2024-09-16T01:19:03.643Z"
+      },
+      {
+        "id": 1726449585388,
+        "name": "spookie",
+        "content": "Cybersecurity essential",
+        "date": "2024-09-16T01:19:45.418Z"
       }
     ]
   },
@@ -42,7 +54,7 @@
     "id": 5,
     "title": "The Evolution of Cloud Computing: Edge and Fog Computing",
     "date": "May 25, 2024",
-    "image": "/images/edge-computing.png",
+    "image": "/images/edge-computing.jpeg",
     "content": "<p>Cloud computing is evolving with the emergence of edge and fog computing. These new paradigms bring computation and data storage closer to the point of need, reducing latency and enabling real-time processing for IoT devices and time-sensitive applications...</p>",
     "comments": []
   }
