@@ -1,21 +1,19 @@
-import fs from "fs";
-import path from "path";
+export async function updateMockData(blogId, newComment) {
+  try {
+    const response = await fetch("/api/comment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ blogId, comment: newComment }),
+    });
 
-export function updateMockData(blogId, newComment) {
-  const mockDataPath = path.join(process.cwd(), "src", "mockData.json");
-
-  // Read the current mock data
-  const mockData = JSON.parse(fs.readFileSync(mockDataPath, "utf8"));
-
-  // Find the blog post and add the new comment
-  const blogPost = mockData.find((post) => post.id === parseInt(blogId));
-  if (blogPost) {
-    if (!blogPost.comments) {
-      blogPost.comments = [];
+    if (!response.ok) {
+      throw new Error("Failed to update comment");
     }
-    blogPost.comments.push(newComment);
 
-    // Write the updated data back to the file
-    fs.writeFileSync(mockDataPath, JSON.stringify(mockData, null, 2));
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating comment:", error);
   }
 }
