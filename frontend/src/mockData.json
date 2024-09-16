@@ -40,7 +40,14 @@
     "date": "June 5, 2024",
     "image": "/images/5g-iot.jpeg",
     "content": "<p>As 5G networks become more widespread, the Internet of Things (IoT) is experiencing a significant boost. This new technology is enabling faster, more reliable connections between devices, opening up new possibilities for smart homes, cities, and industries...</p>",
-    "comments": []
+    "comments": [
+      {
+        "id": 1726450213354,
+        "name": "spookie",
+        "content": "comment",
+        "date": "2024-09-16T01:30:13.452Z"
+      }
+    ]
   },
   {
     "id": 4,
