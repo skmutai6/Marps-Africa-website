@@ -1,15 +1,6 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import {
-  FaLaptopCode,
-  FaMobileAlt,
-  FaPalette,
-  FaShieldAlt,
-  FaChartBar,
-  FaSms,
-  FaLightbulb,
-  FaIndustry,
-} from "react-icons/fa";
+import { FaLaptopCode, FaMobileAlt, FaPalette } from "react-icons/fa";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -25,7 +16,11 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <img className="h-8 w-auto" src="logo.png" alt="Company Logo" />
+              <img
+                className="h-8 w-auto"
+                src="/images/5g-iot.jpeg"
+                alt="Logo"
+              />
             </div>
 
             {/* Desktop Menu */}
@@ -33,7 +28,9 @@ const Navbar = () => {
               <NavLink
                 to="/"
                 className={({ isActive }) =>
-                  `text-gray-700 hover:text-black font-medium ${isActive ? 'text-black' : ''}`
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                 }
               >
                 Home
@@ -53,8 +50,12 @@ const Navbar = () => {
                     <li className="flex items-start p-2 bg-green-100 hover:bg-green-200">
                       <FaLaptopCode className="h-6 w-6 mr-2 text-green-700" />
                       <div>
-                        <h3 className="font-bold text-black">Software Development</h3>
-                        <p className="text-gray-500 text-sm">We plan, design, and develop robust software.</p>
+                        <h3 className="font-bold text-black">
+                          Software Development
+                        </h3>
+                        <p className="text-gray-500 text-sm">
+                          We plan, design, and develop robust software.
+                        </p>
                       </div>
                     </li>
                     <li className="flex items-start p-2 bg-green-100 hover:bg-green-200">
@@ -86,7 +87,9 @@ const Navbar = () => {
               <NavLink
                 to="/resources"
                 className={({ isActive }) =>
-                  `text-gray-700 hover:text-black font-medium ${isActive ? 'text-black' : ''}`
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                 }
               >
                 Resources
@@ -94,23 +97,30 @@ const Navbar = () => {
               <NavLink
                 to="/portfolio"
                 className={({ isActive }) =>
-                  `text-gray-700 hover:text-black font-medium ${isActive ? 'text-black' : ''}`
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                 }
               >
                 Portfolio
               </NavLink>
               <NavLink
-                to="/blog"
+                to="/blogs"
                 className={({ isActive }) =>
-                  `text-gray-700 hover:text-black font-medium ${isActive ? 'text-black' : ''}`
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                 }
               >
                 Blog
               </NavLink>
+
               <NavLink
                 to="/contact"
                 className={({ isActive }) =>
-                  `text-gray-700 hover:text-black font-medium ${isActive ? 'text-black' : ''}`
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                 }
               >
                 Contact
@@ -153,22 +163,40 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden">
             <div className="flex flex-col space-y-4 mt-4">
-              <NavLink to="/" className="text-gray-700 hover:text-black font-medium">
+              <NavLink
+                to="/"
+                className="text-gray-700 hover:text-black font-medium"
+              >
                 Home
               </NavLink>
-              <NavLink to="/services" className="text-gray-700 hover:text-black font-medium">
+              <NavLink
+                to="/services"
+                className="text-gray-700 hover:text-black font-medium"
+              >
                 Services
               </NavLink>
-              <NavLink to="/resources" className="text-gray-700 hover:text-black font-medium">
+              <NavLink
+                to="/resources"
+                className="text-gray-700 hover:text-black font-medium"
+              >
                 Resources
               </NavLink>
-              <NavLink to="/portfolio" className="text-gray-700 hover:text-black font-medium">
+              <NavLink
+                to="/portfolio"
+                className="text-gray-700 hover:text-black font-medium"
+              >
                 Portfolio
               </NavLink>
-              <NavLink to="/blog" className="text-gray-700 hover:text-black font-medium">
+              <NavLink
+                to="/blogs"
+                className="text-gray-700 hover:text-black font-medium"
+              >
                 Blog
               </NavLink>
-              <NavLink to="/contact" className="text-gray-700 hover:text-black font-medium">
+              <NavLink
+                to="/contact"
+                className="text-gray-700 hover:text-black font-medium"
+              >
                 Contact
               </NavLink>
             </div>
