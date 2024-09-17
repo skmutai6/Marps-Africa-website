@@ -44,7 +44,7 @@ const Footer = () => {
           <h2 className="text-xl font-bold text-white mb-4">Company</h2>
           <nav className="flex flex-col space-y-2">
             <NavLink
-              to="#"
+              to="about"
               className="text-white font-semibold hover:underline"
             >
               About Us
