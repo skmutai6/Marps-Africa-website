@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { FadeUp, FadeRight } from '../utility/Animation';
 
-// Sample project data
 const projects = [
   {
     title: 'Africare',
@@ -19,35 +18,34 @@ const projects = [
     category: 'Portfolio',
     image: 'https://images.unsplash.com/photo-1588515724527-074a7a56616c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80',
   },
+  {
+    title: 'Restaurant',
+    category: 'Hospitality',
+    image: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80',
+  },
 ];
 
 const Portfolio = () => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isBannerVisible, setIsBannerVisible] = useState(true);
+  const bannerRef = useRef(null);
   const projectsRef = useRef(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    if (projectsRef.current) {
-      observer.observe(projectsRef.current);
-    }
-
-    return () => {
-      if (projectsRef.current) {
-        observer.unobserve(projectsRef.current);
-      }
+    const handleScroll = () => {
+      const bannerHeight = bannerRef.current?.offsetHeight || 0;
+      const scrollPosition = window.scrollY;
+      setIsBannerVisible(scrollPosition < bannerHeight - 50);
     };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <>
       <div
-        className={`relative h-[70vh] bg-gray-900 text-white opacity-95 flex flex-col justify-between transition-opacity duration-1000 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+        ref={bannerRef}
+        className={`fixed top-0 left-0 w-full  h-[70vh] text-white flex opacity:70 flex-col justify-between transition-opacity duration-700 ease-in-out ${isBannerVisible ? 'opacity-100' : 'opacity-0'}`}
         style={{
           backgroundImage: 'url("https://media.istockphoto.com/id/1702810427/photo/wave-of-musical-sounds-abstract-background-with-interweaving-of-dots-and-lines-3d-rendering.jpg?s=612x612&w=0&k=20&c=GL6r9Cb-UL_5YYUHVev8KMEZR3pEVMCrwYtaPNznTNo=")',
           backgroundSize: 'cover',
@@ -55,43 +53,27 @@ const Portfolio = () => {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <nav className="w-full flex items-center justify-between mx-12 mt-12 p-6 ">
+        <nav className="w-full flex items-center justify-between mx-12 mt-12 p-6">
           <motion.div
             variants={FadeUp(0.5)}
             initial="hidden"
             animate="visible"
             transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
             className="text-2xl font-bold"
           >
-            // Marps-Africa
+           // Marps-Africa
           </motion.div>
         </nav>
 
-        {/* Social Links */}
-        <div className="absolute left-6 bottom-10 flex flex-col mx-12 space-y-4">
-          <a href="#" className="hover:opacity-75">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" className="w-6 h-6">
-              <path fill="#0076b2" d="M116 3H12a8.91 8.91 0 00-9 8.8v104.42a8.91 8.91 0 009 8.78h104a8.93 8.93 0 009-8.81V11.77A8.93 8.93 0 00116 3z"/>
-              <path fill="#fff" d="M21.06 48.73h18.11V107H21.06zm9.06-29a10.5 10.5 0 11-10.5 10.49 10.5 10.5 0 0110.5-10.49M50.53 48.73h17.36v8h.24c2.42-4.58 8.32-9.41 17.13-9.41C103.6 47.28 107 59.35 107 75v32H88.89V78.65c0-6.75-.12-15.44-9.41-15.44s-10.87 7.36-10.87 15V107H50.53z"/>
-            </svg>
-          </a>
-          <a href="#" className="hover:opacity-75">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" className="w-6 h-6">
-              <path fill="#1d9bf0" d="M114.896 37.888c.078 1.129.078 2.257.078 3.396 0 34.7-26.417 74.72-74.72 74.72v-.02A74.343 74.343 0 0 1 0 104.21c2.075.25 4.16.375 6.25.38a52.732 52.732 0 0 0 32.615-11.263A26.294 26.294 0 0 1 14.331 75.09c3.937.76 7.993.603 11.857-.453-12.252-2.475-21.066-13.239-21.066-25.74v-.333a26.094 26.094 0 0 0 11.919 3.287C5.5 44.139 1.945 28.788 8.913 16.787a74.535 74.535 0 0 0 54.122 27.435 26.277 26.277 0 0 1 7.598-25.09c10.577-9.943 27.212-9.433 37.154 1.139a52.696 52.696 0 0 0 16.677-6.376A26.359 26.359 0 0 1 112.92 28.42 52.227 52.227 0 0 0 128 24.285a53.35 53.35 0 0 1-13.104 13.603z"/>
-            </svg>
-          </a>
-        </div>
-
-        {/* Banner Content */}
+        {/* Banner */}
         <div className="flex flex-col items-center justify-center text-center mx-auto my-auto px-4">
           <motion.h1 
             variants={FadeUp(0.5)}
             initial="hidden"
             animate="visible"
             transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-6xl lg:text-8xl font-bold"
+            className="font-bold"
+            style={{ fontSize: 'clamp(2rem, 5vw, 6rem)' }}
           >
             Marps-Africa Portfolio
           </motion.h1>
@@ -100,39 +82,56 @@ const Portfolio = () => {
             initial="hidden"
             animate="visible"
             transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-          
-          className="mt-4 text-base md:text-lg lg:text-2xl">Here's what we have done.</motion.p>
+            className="mt-4"
+            style={{ fontSize: 'clamp(1rem, 2.5vw, 1.5rem)' }} 
+          >
+            Here's what we have done.
+          </motion.p>
         </div>
       </div>
 
-      <section ref={projectsRef} className="bg-gray-800 text-white py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-6xl font-bold text-center opacity-20 shadow mb-12">Portfolio</h2>
+      {/* Projects */}
+      <section ref={projectsRef} className="text-white py-16 relative mt-[100vh]">
+        <div className="container mx-auto">
+          <motion.h2
+            variants={FadeUp(1.2)}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.5 }}
+            className="font-bold opacity-20 shadow relative z-10"
+            style={{
+              WebkitTextStroke: '3px black', 
+              color: 'white',
+              textShadow: '0 0 4px black',
+              fontSize: 'clamp(2rem, 10vw, 8rem)' 
+            }}
+          >
+            Portfolio
+          </motion.h2>
+
           <hr className='mb-10 opacity-20' />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
               <FadeRight delay={0.2 * index} key={index}>
-                <div className="relative group overflow-hidden border-2 border-gray-700 rounded-lg">
+                <div className="relative group overflow-hidden border-2 border-gray-700 rounded-lg transition-all duration-300 hover:border-4 hover:border-blue-500">
                   <img
                     src={project.image}
-                    alt={project.title}
-                    className="object-cover select-none w-full h-auto bg-gray-200 rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]"
+                    alt={`Image of ${project.title} project in ${project.category} category`}
+                    className="object-cover select-none w-full h-auto rounded cursor-zoom-in aspect-[5/6] lg:aspect-[2/3] xl:aspect-[3/4]"
                   />
-
                   <div className="absolute inset-0 bg-black bg-opacity-60 flex flex-col justify-between p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                     <div>
-                      <h3 className="text-2xl md:text-3xl font-bold text-white">{project.title}</h3>
+                      <h3 className="font-bold text-white" style={{ fontSize: 'clamp(1rem, 2.5vw, 2rem)' }}>{project.title}</h3>
                       <p className="mt-2 text-sm leading-6 text-gray-300">{project.category}</p>
                     </div>
 
                     <div className="flex justify-between items-center mt-4">
                       <a
                         href="#"
-                        className="relative inline-flex items-center px-8 py-3 overflow-hidden text-lg font-medium text-white border-2 border-white rounded-full group-hover:text-gray-800 group-hover:bg-white transition-all duration-300"
+                        className="relative inline-flex items-center px-8 py-3 overflow-hidden text-lg font-medium text-white border-2 border-blue-500 rounded-full bg-transparent group hover:bg-blue-600 hover:text-white transition-all duration-300"
                       >
-                        <span className="absolute left-0 block w-full h-0 transition-all bg-white opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
+                        <span className="absolute left-0 block w-full h-0 transition-all bg-blue-600 opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
                         <span className="relative text-sm">Explore</span>
                         <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -146,7 +145,7 @@ const Portfolio = () => {
               </FadeRight>
             ))}
           </div>
-        </div>
+          </div>
       </section>
     </>
   );
