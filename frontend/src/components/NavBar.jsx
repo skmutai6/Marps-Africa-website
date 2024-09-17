@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { FaLaptopCode, FaMobileAlt, FaPalette, FaSearch, FaCloud } from 'react-icons/fa';
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { FaLaptopCode, FaMobileAlt, FaPalette } from "react-icons/fa";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -16,7 +16,11 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <img className="h-8 w-auto" src="logo.png" alt="Company Logo" />
+              <img
+                className="h-8 w-auto"
+                src="/images/5g-iot.jpeg"
+                alt="Logo"
+              />
             </div>
 
             {/* Desktop Menu */}
@@ -24,7 +28,9 @@ const Navbar = () => {
               <NavLink
                 to="/"
                 className={({ isActive }) =>
-                  `text-gray-700 hover:text-black font-medium ${isActive ? 'text-black' : ''}`
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                 }
               >
                 Home
@@ -38,61 +44,86 @@ const Navbar = () => {
                 >
                   Services
                 </NavLink>
-
-                {/* Dropdown - Full Width */}
-                <div className="absolute left-0 hidden group-hover:block w-full bg-white border shadow-lg mt-2 py-8">
-                  <div className="max-w-7xl mx-auto px-6">
-                    <ul className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                      {/* Services list */}
-                      <li className="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
-                        <FaLaptopCode className="h-8 w-8 text-blue-500 mb-2" />
-                        <h3 className="font-bold text-gray-800">Brainstorming Ideas</h3>
-                        <p className="text-gray-500 text-sm">Innovative ideas for your business.</p>
-                      </li>
-                      <li className="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
-                        <FaPalette className="h-8 w-8 text-blue-500 mb-2" />
-                        <h3 className="font-bold text-gray-800">Product Design</h3>
-                        <p className="text-gray-500 text-sm">Crafting user-centric designs.</p>
-                      </li>
-                      <li className="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
-                        <FaSearch className="h-8 w-8 text-blue-500 mb-2" />
-                        <h3 className="font-bold text-gray-800">SEO Optimization</h3>
-                        <p className="text-gray-500 text-sm">Boosting your search visibility.</p>
-                      </li>
-                      <li className="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
-                        <FaCloud className="h-8 w-8 text-blue-500 mb-2" />
-                        <h3 className="font-bold text-gray-800">Cloud Solutions</h3>
-                        <p className="text-gray-500 text-sm">Secure and scalable cloud services.</p>
-                      </li>
-                    </ul>
-                  </div>
+                <div className="absolute hidden group-hover:block bg-white border shadow-lg mt-2 py-2 w-[600px]">
+                  <ul className="grid grid-cols-2 gap-4 p-4">
+                    {/* Services list */}
+                    <li className="flex items-start p-2 bg-green-100 hover:bg-green-200">
+                      <FaLaptopCode className="h-6 w-6 mr-2 text-green-700" />
+                      <div>
+                        <h3 className="font-bold text-black">
+                          Software Development
+                        </h3>
+                        <p className="text-gray-500 text-sm">
+                          We plan, design, and develop robust software.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-start p-2 bg-green-100 hover:bg-green-200">
+                      <FaMobileAlt className="h-6 w-6 mr-2 text-green-700" />
+                      <div>
+                        <h3 className="font-bold text-black">
+                          Mobile App Development
+                        </h3>
+                        <p className="text-gray-500 text-sm">
+                          We develop cross-platform mobile applications.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-start p-2 bg-green-300 hover:bg-green-400">
+                      <FaPalette className="h-6 w-6 mr-2 text-green-700" />
+                      <div>
+                        <h3 className="font-bold text-black">Website Design</h3>
+                        <p className="text-gray-500 text-sm">
+                          Aesthetically pleasing website designs.
+                        </p>
+                      </div>
+                    </li>
+                    {/* More services... */}
+                  </ul>
                 </div>
               </div>
 
               {/* Other links */}
               <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
+                }
+              >
+                About Us
+              </NavLink>
+              <NavLink
                 to="/portfolio"
                 className={({ isActive }) =>
-                  `text-gray-700 hover:text-black font-medium ${isActive ? 'text-black' : ''}`
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                 }
               >
                 Portfolio
               </NavLink>
               <NavLink
-                to="/blog"
+                to="/blogs"
                 className={({ isActive }) =>
-                  `text-gray-700 hover:text-black font-medium ${isActive ? 'text-black' : ''}`
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                 }
               >
-                Blog
+                Our Blogs
               </NavLink>
+
               <NavLink
                 to="/contact"
                 className={({ isActive }) =>
-                  `text-gray-700 hover:text-black font-medium ${isActive ? 'text-black' : ''}`
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                 }
               >
-                Contact
+                Contact Us
               </NavLink>
             </div>
           </div>
@@ -132,22 +163,40 @@ const Navbar = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden">
             <div className="flex flex-col space-y-4 mt-4">
-              <NavLink to="/" className="text-gray-700 hover:text-black font-medium">
+              <NavLink
+                to="/"
+                className="text-gray-700 hover:text-black font-medium"
+              >
                 Home
               </NavLink>
-              <NavLink to="/services" className="text-gray-700 hover:text-black font-medium">
+              <NavLink
+                to="/services"
+                className="text-gray-700 hover:text-black font-medium"
+              >
                 Services
               </NavLink>
-              <NavLink to="/resources" className="text-gray-700 hover:text-black font-medium">
+              <NavLink
+                to="/resources"
+                className="text-gray-700 hover:text-black font-medium"
+              >
                 Resources
               </NavLink>
-              <NavLink to="/portfolio" className="text-gray-700 hover:text-black font-medium">
+              <NavLink
+                to="/portfolio"
+                className="text-gray-700 hover:text-black font-medium"
+              >
                 Portfolio
               </NavLink>
-              <NavLink to="/blog" className="text-gray-700 hover:text-black font-medium">
-                Blog
+              <NavLink
+                to="/blogs"
+                className="text-gray-700 hover:text-black font-medium"
+              >
+                Our Blogs
               </NavLink>
-              <NavLink to="/contact" className="text-gray-700 hover:text-black font-medium">
+              <NavLink
+                to="/contact"
+                className="text-gray-700 hover:text-black font-medium"
+              >
                 Contact
               </NavLink>
             </div>
