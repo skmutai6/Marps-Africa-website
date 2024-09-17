@@ -112,7 +112,7 @@ const Navbar = () => {
                   }`
                 }
               >
-                Blog
+                Our Blogs
               </NavLink>
 
               <NavLink
@@ -123,7 +123,17 @@ const Navbar = () => {
                   }`
                 }
               >
-                Contact
+                Contact Us
+              </NavLink>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
+                }
+              >
+                About Us
               </NavLink>
             </div>
           </div>
@@ -191,7 +201,7 @@ const Navbar = () => {
                 to="/blogs"
                 className="text-gray-700 hover:text-black font-medium"
               >
-                Blog
+                Our Blogs
               </NavLink>
               <NavLink
                 to="/contact"
