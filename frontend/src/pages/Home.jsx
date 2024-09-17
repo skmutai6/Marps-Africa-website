@@ -66,7 +66,7 @@ function Home() {
   return (
     <div className="relative w-full bg-slate-100">
       {/* Hero Section */}
-      <section className='relative h-screen overflow-hidden mt-10'>
+      <section className='relative h-screen  overflow-hidden mt-10'>
         <div className="relative w-full h-full">
           <img
             src={images[currentIndex].src}
