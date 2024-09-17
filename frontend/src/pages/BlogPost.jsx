@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import blogData from "../mockData.json";
-import { updateMockData } from "../utils/updateMockData";
+import { updateMockData } from "../utility/updateMockData";
 import { FaWhatsapp, FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
 
 function BlogPost() {
@@ -40,7 +40,7 @@ function BlogPost() {
             className="prose max-w-none"
             dangerouslySetInnerHTML={{ __html: blog.content }}
           />
-          <ShareButtons />
+          <ShareButtons blog={blog} />
           <CommentSection
             comments={comments}
             setComments={setComments}
@@ -52,11 +52,24 @@ function BlogPost() {
   );
 }
 
-function ShareButtons() {
+function ShareButtons({ blog }) {
+  const currentURL = encodeURIComponent(window.location.href);
+  const blogTitle = encodeURIComponent(blog.title);
+  const blogSummary = encodeURIComponent(
+    blog.summary || "Check out this interesting blog post!"
+  );
+
+  const shareUrls = {
+    Whatsapp: `https://api.whatsapp.com/send?text=${blogTitle}%20${currentURL}`,
+    Facebook: `https://www.facebook.com/sharer/sharer.php?u=${currentURL}`,
+    Twitter: `https://twitter.com/intent/tweet?url=${currentURL}&text=${blogTitle}`,
+    LinkedIn: `https://www.linkedin.com/shareArticle?mini=true&url=${currentURL}&title=${blogTitle}&summary=${blogSummary}`,
+  };
+
   const buttonColors = {
     Whatsapp: "bg-green-600 hover:bg-green-700 text-white",
     Facebook: "bg-blue-700 hover:bg-blue-800 text-white",
-    X: "bg-black hover:bg-black text-white",
+    X: "bg-black hover:bg-gray-900 text-white",
     LinkedIn: "bg-blue-500 hover:bg-blue-600 text-white",
   };
 
@@ -65,6 +78,10 @@ function ShareButtons() {
     Facebook: <FaFacebook />,
     Twitter: <FaTwitter />,
     LinkedIn: <FaLinkedin />,
+  };
+
+  const handleShare = (platform) => {
+    window.open(shareUrls[platform], "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -77,6 +94,7 @@ function ShareButtons() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className={`${color} flex items-center space-x-2 text-white px-4 py-2 rounded-full hover:opacity-90 transition duration-300`}
+            onClick={() => handleShare(platform)}
           >
             {iconComponents[platform]}
             <span>{platform}</span>
@@ -86,6 +104,7 @@ function ShareButtons() {
     </div>
   );
 }
+
 
 function CommentSection({ comments, setComments, blogId }) {
   const [newComment, setNewComment] = useState("");
