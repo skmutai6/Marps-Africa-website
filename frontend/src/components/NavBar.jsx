@@ -85,14 +85,14 @@ const Navbar = () => {
 
               {/* Other links */}
               <NavLink
-                to="/resources"
+                to="/about"
                 className={({ isActive }) =>
                   `text-gray-700 hover:text-black font-medium ${
                     isActive ? "text-black" : ""
                   }`
                 }
               >
-                Resources
+                About Us
               </NavLink>
               <NavLink
                 to="/portfolio"
@@ -124,16 +124,6 @@ const Navbar = () => {
                 }
               >
                 Contact Us
-              </NavLink>
-              <NavLink
-                to="/about"
-                className={({ isActive }) =>
-                  `text-gray-700 hover:text-black font-medium ${
-                    isActive ? "text-black" : ""
-                  }`
-                }
-              >
-                About Us
               </NavLink>
             </div>
           </div>
