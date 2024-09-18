@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// The FadeUp component is a higher-order component that applies fade-up animation to children components
 export const FadeUp = (delay) => {
     return {
       hidden: {
@@ -19,6 +18,24 @@ export const FadeUp = (delay) => {
     };
   };
 
+  export const FadeDown = (delay) => {
+    return {
+      hidden: {
+        opacity: 0,
+        y: -100,
+      },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+          duration: 1,
+          delay: delay,
+        },
+      },
+    };
+  };
+
+  
 export const FadeLeft = ({ delay = 0, children }) => {
   const variants = {
     hidden: { opacity: 0, x: 100 },
