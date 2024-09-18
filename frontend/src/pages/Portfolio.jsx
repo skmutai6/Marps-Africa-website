@@ -1,11 +1,15 @@
 import React from 'react';
+import {motion} from 'framer-motion';
+import { FadeUp, FadeDown } from '../utility/Animation';
 
 const Portfolio = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="mt-5 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-blue-100 hover:bg-blue-200 transition-colors duration-300 transform hover:scale-110 cursor-pointer">
+    <div className="mt-12 flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-blue-100 hover:bg-blue-200 transition-colors duration-300 transform hover:scale-110 cursor-pointer">
 
-      <a href="/">
+      <motion.a
+       href="/">
+
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -20,10 +24,14 @@ const Portfolio = () => {
           d="M15.75 19.5 8.25 12l7.5-7.5"
         />
       </svg>
-      </a>
+      </motion.a>
 
     </div>
-      <div className="text mb-5 mt-5">
+      <motion.div
+      variants={FadeDown(0.5)}
+      initial="hidden"
+      animate="visible"
+      className="text mb-5 mt-5">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
           Projects we've made trying to put <br /> our dent in the universe.
         </h1>
@@ -32,9 +40,13 @@ const Portfolio = () => {
         </span>
         <br className='mb-4'/>
         
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <motion.div
+      variants={FadeUp(0.9)}
+      initial="hidden"
+      animate="visible"
+      className="mb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
   {[
     'https://images.unsplash.com/photo-1588515724527-074a7a56616c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80',
     'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80',
@@ -74,7 +86,7 @@ const Portfolio = () => {
       </dl>
     </a>
   ))}
-</div>
+</motion.div>
 
     </div>
   );
