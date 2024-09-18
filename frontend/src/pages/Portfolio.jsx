@@ -63,9 +63,11 @@ const Portfolio = () => {
 
       <dl className="mt-6 flex gap-4 sm:gap-6">
       <div className="flex flex-col-reverse">
-      <a href="google.com" className='hover:text-blue-500 hover:border hover:border-blue-500 rounded-lg px-4 py-2 transition duration-300 ease-in-out'>
+      <a href="https://www.google.com" 
+        className='border-2 border-blue-500 rounded-lg text-blue-500 hover:bg-blue-500 hover:text-white px-4 py-2 transition duration-300 ease-in-out'>
         Explore
       </a>
+
 
       </div>
 
