@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+import marpslogo from "../assets/marpslogo.png";
 import {
   FaLaptopCode,
   FaMobileAlt,
@@ -22,7 +23,7 @@ const Navbar = () => {
             <div className="flex-shrink-0">
               <img
                 className="h-28 w-auto"
-                src="{marpslogo}"
+                src={marpslogo}
                 alt="Logo"
               />
             </div>
