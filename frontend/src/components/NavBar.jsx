@@ -5,6 +5,7 @@ import {
   FaMobileAlt,
   FaPalette,
 } from "react-icons/fa";
+import marpslogo from "../assets/marpslogo.png";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -22,7 +23,7 @@ const Navbar = () => {
             <div className="flex-shrink-0">
               <img
                 className="h-28 w-auto"
-                src="{marpslogo}"
+                src={marpslogo}
                 alt="Logo"
               />
             </div>
