@@ -1,16 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import marpslogo from "../assets/marpslogo.png";
-
 import {
   FaLaptopCode,
   FaMobileAlt,
   FaPalette,
-  FaMoneyBillWave,
-  FaChartBar,
-  FaSms,
-  FaLightbulb,
-  FaChevronDown,
 } from "react-icons/fa";
 
 const Navbar = () => {
@@ -54,7 +48,12 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
-              <img className="h-28 w-auto" src={marpslogo} alt="Logo" />
+              <img
+                className="h-28 w-auto"
+                src={marpslogo}
+                src={marpslogo}
+                alt="Logo"
+              />
             </div>
 
             {/* Desktop Menu */}
