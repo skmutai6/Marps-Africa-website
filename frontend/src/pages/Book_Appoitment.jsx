@@ -8,7 +8,18 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const countryCodes = [
-  // ... your existing country codes
+  { name: "Nigeria", code: "+234" },
+  { name: "South Africa", code: "+27" },
+  { name: "Ghana", code: "+233" },
+  { name: "Kenya", code: "+254" },
+  { name: "United States", code: "+1" },
+  { name: "Canada", code: "+1" },
+  { name: "United Kingdom", code: "+44" },
+  { name: "Australia", code: "+61" },
+  { name: "India", code: "+91" },
+  { name: "Japan", code: "+81" },
+  { name: "South Korea", code: "+82" },
+  { name: "Germany", code: "+49" },
 ];
 
 const requiredWords = ["appointment", "schedule", "meeting"]; // Words that must be in the message
