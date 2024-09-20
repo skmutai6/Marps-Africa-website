@@ -6,7 +6,6 @@ import {
 } from 'react-icons/fa';
 
 export default function About() {
-export default function About() {
   return (
     <div>
       {/* Banner Section */}
