@@ -60,6 +60,9 @@ const Navbar = () => {
                   `text-gray-700 hover:text-black font-medium ${
                     isActive ? "text-black" : ""
                   }`
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                 }
               >
                 Home
@@ -181,17 +184,25 @@ const Navbar = () => {
               {/* Other links */}
               <NavLink
                 to="/about"
+                to="/about"
                 className={({ isActive }) =>
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                   `text-gray-700 hover:text-black font-medium ${
                     isActive ? "text-black" : ""
                   }`
                 }
               >
                 About Us
+                About Us
               </NavLink>
               <NavLink
                 to="/portfolio"
                 className={({ isActive }) =>
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                   `text-gray-700 hover:text-black font-medium ${
                     isActive ? "text-black" : ""
                   }`
@@ -201,22 +212,32 @@ const Navbar = () => {
               </NavLink>
               <NavLink
                 to="/blogs"
+                to="/blogs"
                 className={({ isActive }) =>
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                   `text-gray-700 hover:text-black font-medium ${
                     isActive ? "text-black" : ""
                   }`
                 }
               >
                 Our Blogs
+                Our Blogs
               </NavLink>
+
               <NavLink
                 to="/contact"
                 className={({ isActive }) =>
                   `text-gray-700 hover:text-black font-medium ${
                     isActive ? "text-black" : ""
                   }`
+                  `text-gray-700 hover:text-black font-medium ${
+                    isActive ? "text-black" : ""
+                  }`
                 }
               >
+                Contact Us
                 Contact Us
               </NavLink>
             </div>
