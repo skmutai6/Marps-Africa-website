@@ -70,6 +70,13 @@
     "date": "May 25, 2024",
     "image": "/images/edge-computing.jpeg",
     "content": "<p>Cloud computing is evolving with the emergence of edge and fog computing. These new paradigms bring computation and data storage closer to the point of need, reducing latency and enabling real-time processing for IoT devices and time-sensitive applications...</p>",
-    "comments": []
+    "comments": [
+      {
+        "id": 1726862423437,
+        "name": "test",
+        "content": "test",
+        "date": "2024-09-20T20:00:23.539Z"
+      }
+    ]
   }
 ]
