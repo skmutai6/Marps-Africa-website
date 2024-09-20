@@ -1,76 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { storage } from '../firebaseConfig'; // Ensure this path is correct
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-// Country code options
 const countryCodes = [
-  { code: '+1', name: 'United States' },
-  { code: '+44', name: 'United Kingdom' },
-  { code: '+91', name: 'India' },
-  { code: '+61', name: 'Australia' },
-  { code: '+49', name: 'Germany' },
-  { code: '+33', name: 'France' },
-  { code: '+39', name: 'Italy' },
-  { code: '+34', name: 'Spain' },
-  { code: '+27', name: 'South Africa' },
-  { code: '+81', name: 'Japan' },
-  { code: '+254', name: 'Kenya' },
-  // Add more country codes as needed
+  // ... your existing country codes
 ];
 
-// Reusable components for inputs
-const TextInput = ({ label, name, type = 'text', value, onChange, placeholder, required, disabled }) => (
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-2">
-      {label} {required && <span className="text-red-500">*</span>}
-    </label>
-    <input
-      type={type}
-      name={name}
-      value={value}
-      onChange={onChange}
-      required={required}
-      disabled={disabled}
-      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out hover:border-blue-400 hover:shadow-lg"
-      placeholder={placeholder}
-    />
-  </div>
-);
-
-const Textarea = ({ label, name, value, onChange, placeholder, rows = 4, required, disabled }) => (
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-2">
-      {label} {required && <span className="text-red-500">*</span>}
-    </label>
-    <textarea
-      name={name}
-      value={value}
-      onChange={onChange}
-      required={required}
-      disabled={disabled}
-      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out hover:border-blue-400 hover:shadow-lg"
-      rows={rows}
-      placeholder={placeholder}
-    />
-  </div>
-);
-
-const FileUpload = ({ label, name, onChange, accept, disabled }) => (
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
-    <input
-      type="file"
-      name={name}
-      accept={accept}
-      onChange={onChange}
-      disabled={disabled}
-      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out hover:border-blue-400 hover:shadow-lg"
-    />
-  </div>
-);
+const requiredWords = ['appointment', 'schedule', 'meeting']; // Words that must be in the message
 
 const BookAppointment = () => {
   const [formData, setFormData] = useState({
@@ -78,13 +19,22 @@ const BookAppointment = () => {
     email: '',
     phone: '',
     countryCode: '+1',
-    appointmentDate: '',
+    appointmentDate: null, // Set to null initially
     appointmentTime: '',
     message: '',
     document: null,
   });
 
+  const [formattedDate, setFormattedDate] = useState(''); // State for formatted date
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [availableHours, setAvailableHours] = useState([]);
+  const [validationErrors, setValidationErrors] = useState({});
+
+  useEffect(() => {
+    if (formData.appointmentDate) {
+      updateAvailableHours(formData.appointmentDate);
+    }
+  }, [formData.appointmentDate]);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -101,56 +51,103 @@ const BookAppointment = () => {
     });
   };
 
-  const validateMessage = (message) => {
-    const digitCount = (message.match(/\d/g) || []).length;
-    if (digitCount > 10) {
-      return 'Message cannot contain more than 10 numeric characters.';
+  const handleDateChange = (date) => {
+    if (date) {
+      const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
+      const formattedDate = `${dayOfWeek}, ${date.toLocaleDateString()}`;
+      setFormattedDate(formattedDate);
+      setFormData({
+        ...formData,
+        appointmentDate: date,
+      });
+      updateAvailableHours(date); // Update available hours when date changes
+    } else {
+      setFormattedDate('');
+      setFormData({
+        ...formData,
+        appointmentDate: null,
+      });
+      setAvailableHours([]); // Clear available hours when date is cleared
     }
-    const repeatedPattern = /(.)\1{2,}/;
-    if (repeatedPattern.test(message)) {
-      return 'Message cannot contain sequences of more than 2 repeated characters or numbers.';
-    }
-    return null;
   };
 
-  const uploadDocument = async (file) => {
-    const fileRef = ref(storage, `documents/${file.name}`);
-    await uploadBytes(fileRef, file);
-    const url = await getDownloadURL(fileRef);
-    return url;
+  const updateAvailableHours = (date) => {
+    const now = new Date();
+    const selectedDate = new Date(date);
+    const isToday = selectedDate.toDateString() === now.toDateString();
+
+    let hours = [];
+    if (isToday) {
+      const currentHour = now.getHours();
+      const endOfDay = 22; // Assume appointments end at 10 PM
+
+      for (let hour = currentHour + 1; hour < endOfDay; hour++) { // Start from the next hour
+        hours.push(`${hour < 10 ? '0' : ''}${hour}`);
+      }
+    } else {
+      const startHour = selectedDate.getDay() === 6 ? 8 : 8; // Saturdays start at 8 AM, other days start at 8 AM
+      const endHour = selectedDate.getDay() === 6 ? 12 : 22; // Saturdays end at 12 PM, other days end at 10 PM
+
+      for (let hour = startHour; hour < endHour; hour++) {
+        hours.push(`${hour < 10 ? '0' : ''}${hour}`);
+      }
+    }
+
+    setAvailableHours(hours);
+  };
+
+  const isDateDisabled = (date) => {
+    const dayOfWeek = date.getDay();
+    return dayOfWeek === 0 || date < new Date();
+  };
+
+  const validateMessage = (message) => {
+    const wordCount = message.split(/\s+/).length;
+    const numericCount = (message.match(/\d/g) || []).length;
+    const containsRequiredWords = requiredWords.some(word => message.toLowerCase().includes(word));
+
+    return wordCount >= 20 && numericCount <= 4 && containsRequiredWords;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    const errors = {};
 
     const currentDate = new Date();
     const selectedDate = new Date(formData.appointmentDate);
-    const [hours, minutes] = formData.appointmentTime.split(':').map(Number);
+    const [hours] = formData.appointmentTime.split(':').map(Number);
 
     if (selectedDate < currentDate.setHours(0, 0, 0, 0)) {
-      toast.error('Appointment date cannot be in the past.');
-      setIsSubmitting(false);
-      return;
+      errors.date = 'Choose a day that is beyond today.';
     }
 
     if (hours < 8 || hours >= 22) {
-      toast.error('Appointment time must be between 8:00 AM and 10:00 PM.');
-      setIsSubmitting(false);
+      errors.time = 'Appointment time must be between 8:00 AM and 10:00 PM.';
+    }
+
+    if (selectedDate.getDay() === 0) {
+      errors.date = 'Sorry, we don’t work on Sundays. Please choose another day.';
+    }
+
+    if (!formData.message) {
+      errors.message = 'Please enter a message.';
+    } else if (!validateMessage(formData.message)) {
+      errors.message = 'Message must be at least 20 words long, contain no more than 4 numeric characters, and include at least one of the required words: "appointment," "schedule," or "meeting".';
+    }
+
+    if (Object.keys(errors).length) {
+      setValidationErrors(errors);
       return;
     }
 
-    const messageError = validateMessage(formData.message.trim());
-    if (messageError) {
-      toast.error(messageError);
-      setIsSubmitting(false);
-      return;
-    }
+    setIsSubmitting(true);
 
     let documentUrl = '';
     if (formData.document) {
       try {
-        documentUrl = await uploadDocument(formData.document);
+        const fileRef = ref(storage, `documents/${formData.document.name}`);
+        await uploadBytes(fileRef, formData.document);
+        documentUrl = await getDownloadURL(fileRef);
       } catch (error) {
         console.error('Error uploading document:', error);
         toast.error('Failed to upload document. Please try again.');
@@ -167,14 +164,13 @@ const BookAppointment = () => {
       from_name: formData.name,
       from_email: formData.email,
       phone: `${formData.countryCode} ${formData.phone}`,
-      appointment_date: formData.appointmentDate,
+      appointment_date: formattedDate, // Use formatted date
       appointment_time: formData.appointmentTime,
       message: formData.message,
-      document_url: documentUrl, // Document URL will be an empty string if no document is uploaded
+      document_url: documentUrl,
     };
 
-    emailjs
-      .send(serviceID, templateID, templateParams, publicKey)
+    emailjs.send(serviceID, templateID, templateParams, publicKey)
       .then(() => {
         toast.success('Appointment booked successfully!');
         setFormData({
@@ -182,11 +178,13 @@ const BookAppointment = () => {
           email: '',
           phone: '',
           countryCode: '+1',
-          appointmentDate: '',
+          appointmentDate: null,
           appointmentTime: '',
           message: '',
           document: null,
         });
+        setFormattedDate('');
+        setValidationErrors({});
         setIsSubmitting(false);
       })
       .catch((error) => {
@@ -197,105 +195,162 @@ const BookAppointment = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8 bg-white my-8 rounded-lg shadow-lg transition-all duration-300 font-sans">
-      <h2 className="text-2xl font-bold text-blue-700 mb-6 font-poppins text-center md:text-left">
-        Book an Appointment with MarpsAfrica
+    <div className="max-w-3xl mx-auto px-4 py-8 sm:px-6 lg:px-8 bg-white shadow-lg rounded-lg">
+      <h2 className="text-3xl font-bold text-blue-700 mb-6 text-center">
+        Book an Appointment
       </h2>
-      <p className="text-gray-600 mb-8 text-center md:text-left">
-        Welcome to MarpsAfrica! We're excited to assist you. Please fill out the form below to schedule your appointment. Fields marked with
-        <span className="text-red-500"> *</span> are required, but we aim to keep it quick and easy for you.
-      </p>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <TextInput
-          label="Name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          disabled={isSubmitting}
-          placeholder="Enter your name"
-        />
-        <TextInput
-          label="Email"
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          disabled={isSubmitting}
-          placeholder="Enter your email"
-        />
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
-          <div className="flex space-x-4">
+          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+            Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            id="name"
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            disabled={isSubmitting}
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+            placeholder="Enter your name"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            Email <span className="text-red-500">*</span>
+          </label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            disabled={isSubmitting}
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+            placeholder="Enter your email"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+            Phone Number <span className="text-red-500">*</span>
+          </label>
+          <div className="flex items-center">
             <select
+              name="countryCode"
               value={formData.countryCode}
               onChange={handleCountryCodeChange}
-              className="p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out hover:border-blue-400 hover:shadow-lg"
               disabled={isSubmitting}
+              className="w-20 p-2 border border-gray-300 rounded-l-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
             >
-              {countryCodes.map((country) => (
-                <option key={country.code} value={country.code}>
-                  {country.name} ({country.code})
+              {countryCodes.map((code) => (
+                <option key={code.code} value={code.code}>
+                  {code.name} ({code.code})
                 </option>
               ))}
             </select>
-            <TextInput
+            <input
+              id="phone"
+              type="text"
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              placeholder="Enter your phone number"
               required
               disabled={isSubmitting}
+              className="w-full p-3 border border-gray-300 rounded-r-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+              placeholder="Enter your phone number"
             />
           </div>
         </div>
 
-        <TextInput
-          label="Appointment Date"
-          name="appointmentDate"
-          type="date"
-          value={formData.appointmentDate}
-          onChange={handleChange}
-          required
-          disabled={isSubmitting}
-        />
-        <TextInput
-          label="Appointment Time"
-          name="appointmentTime"
-          type="time"
-          value={formData.appointmentTime}
-          onChange={handleChange}
-          required
-          disabled={isSubmitting}
-        />
-        <Textarea
-          label="Message"
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          placeholder="Enter your message"
-          required
-          disabled={isSubmitting}
-        />
-        <FileUpload
-          label="Upload Document (optional)"
-          name="document"
-          onChange={handleChange}
-          accept=".pdf"
-          disabled={isSubmitting}
-        />
+        <div>
+          <label htmlFor="appointmentDate" className="block text-sm font-medium text-gray-700 mb-2">
+            Appointment Date <span className="text-red-500">*</span>
+          </label>
+          <DatePicker
+            id="appointmentDate"
+            selected={formData.appointmentDate}
+            onChange={handleDateChange}
+            dateFormat="MMMM d, yyyy"
+            minDate={new Date()}
+            filterDate={(date) => !isDateDisabled(date)}
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+            placeholderText="Choose the date"
+          />
+          {formattedDate && (
+            <p className="text-gray-600 mt-2">
+              Selected Date: {formattedDate}
+            </p>
+          )}
+          {validationErrors.date && <p className="text-red-500 mt-2">{validationErrors.date}</p>}
+        </div>
 
         <div>
-          <button
-            type="submit"
-            className="w-full py-3 px-5 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-700 transition-all duration-300 ease-in-out"
+          <label htmlFor="appointmentTime" className="block text-sm font-medium text-gray-700 mb-2">
+            Appointment Time <span className="text-red-500">*</span>
+          </label>
+          <select
+            id="appointmentTime"
+            name="appointmentTime"
+            value={formData.appointmentTime}
+            onChange={handleChange}
             disabled={isSubmitting}
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
           >
-            {isSubmitting ? 'Submitting...' : 'Book Appointment'}
-          </button>
+            <option value="">Select Time</option>
+            {availableHours.map((hour) => (
+              <option key={hour} value={`${hour}:00`}>
+                {hour}:00
+              </option>
+            ))}
+          </select>
+          {validationErrors.time && <p className="text-red-500 mt-2">{validationErrors.time}</p>}
         </div>
+
+        <div>
+          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+            Message <span className="text-red-500">*</span>
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            disabled={isSubmitting}
+            rows="4"
+            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+            placeholder="Enter your message"
+          />
+          {validationErrors.message && <p className="text-red-500 mt-2">{validationErrors.message}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="document" className="block text-sm font-medium text-gray-700 mb-2">
+            Upload Document (optional)
+          </label>
+          <input
+            id="document"
+            type="file"
+            name="document"
+            accept=".pdf"
+            onChange={handleChange}
+            disabled={isSubmitting}
+            className="w-full border border-gray-300 rounded-lg shadow-sm file:border-0 file:bg-blue-500 file:text-white file:py-2 file:px-4 file:rounded-lg file:text-sm transition duration-150 ease-in-out"
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={`w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow-sm hover:bg-blue-700 transition duration-150 ease-in-out ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+        >
+          {isSubmitting ? 'Submitting...' : 'Submit'}
+        </button>
       </form>
 
       <ToastContainer />
