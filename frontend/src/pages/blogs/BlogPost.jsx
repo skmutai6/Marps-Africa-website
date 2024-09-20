@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import blogData from "../mockData.json";
-import { updateMockData } from "../utility/updateMockData";
+import blogData from "../../mockData.json";
+import { updateMockData } from "../../utility/updateMockData";
 import { FaWhatsapp, FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
 
 function BlogPost() {
@@ -104,7 +104,6 @@ function ShareButtons({ blog }) {
     </div>
   );
 }
-
 
 function CommentSection({ comments, setComments, blogId }) {
   const [newComment, setNewComment] = useState("");
