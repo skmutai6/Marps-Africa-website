@@ -74,7 +74,7 @@ const Contact = () => {
           <ul className="space-y-4 font-['Roboto']">
             <li className="flex items-center hover:bg-gray-100 p-2 rounded-lg transition-all">
               <FaCheckCircle className="text-green-500 mr-3 text-xl" />
-              Winderson experts contact you within 24h
+              MarpsAfrica Solutions experts contact you within 24h
             </li>
             <li className="flex items-center hover:bg-gray-100 p-2 rounded-lg transition-all">
               <FaCheckCircle className="text-green-500 mr-3 text-xl" />

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
+import Loader from "./components/Loader"; // Import the loader component
 
 import Home from "./pages/Home";
 import Blogs from "./pages/blogs/Blogs";
@@ -19,6 +20,21 @@ import PayIntergration from "./pages/services/PayIntergration";
 import Research from "./pages/services/Research";
 
 function App() {
+  const [loading, setLoading] = useState(true); // Track the loading state
+
+  useEffect(() => {
+    // Simulate a delay for the loader (e.g., 2 seconds)
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); // Adjust the delay as needed
+
+    return () => clearTimeout(timer); // Cleanup the timer on unmount
+  }, []);
+
+  if (loading) {
+    return <Loader />; // Show the loader during the first load
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -34,9 +50,9 @@ function App() {
           <Route path="/services/payment-integration" element={<PayIntergration />} />
           <Route path="/services/market-research" element={<Research />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="portfolio" element = {<Portfolio/>} />
+          <Route path="portfolio" element={<Portfolio />} />
           <Route path="about" element={<About />} />
-          <Route path="appoitment" element = {<Book_Appoitment/>} />
+          <Route path="appoitment" element={<Book_Appoitment />} />
         </Route>
         <Route path="*" element={<NoPage />} />
       </Routes>
