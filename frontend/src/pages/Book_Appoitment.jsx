@@ -186,8 +186,7 @@ const BookAppointment = () => {
       document_url: documentUrl,
     };
 
-    emailjs
-      .send(serviceID, templateID, templateParams, publicKey)
+    emailjs.send(serviceID, templateID, templateParams, publicKey)
       .then(() => {
         toast.success("Appointment booked successfully!");
         setFormData({
