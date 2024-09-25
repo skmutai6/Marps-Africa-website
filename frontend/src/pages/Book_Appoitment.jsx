@@ -1,31 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import emailjs from 'emailjs-com';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { storage } from '../firebaseConfig'; // Ensure this path is correct
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useState, useEffect } from "react";
+import emailjs from "emailjs-com";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { storage } from "../firebaseConfig"; // Ensure this path is correct
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const countryCodes = [
-  // ... your existing country codes
+  { name: "Nigeria", code: "+234" },
+  { name: "South Africa", code: "+27" },
+  { name: "Ghana", code: "+233" },
+  { name: "Kenya", code: "+254" },
+  { name: "United States", code: "+1" },
+  { name: "Canada", code: "+1" },
+  { name: "United Kingdom", code: "+44" },
+  { name: "Australia", code: "+61" },
+  { name: "India", code: "+91" },
+  { name: "Japan", code: "+81" },
+  { name: "South Korea", code: "+82" },
+  { name: "Germany", code: "+49" },
 ];
 
-const requiredWords = ['appointment', 'schedule', 'meeting']; // Words that must be in the message
+const requiredWords = ["appointment", "schedule", "meeting"]; // Words that must be in the message
 
 const BookAppointment = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    countryCode: '+1',
+    name: "",
+    email: "",
+    phone: "",
+    countryCode: "+1",
     appointmentDate: null, // Set to null initially
-    appointmentTime: '',
-    message: '',
+    appointmentTime: "",
+    message: "",
     document: null,
   });
 
-  const [formattedDate, setFormattedDate] = useState(''); // State for formatted date
+  const [formattedDate, setFormattedDate] = useState(""); // State for formatted date
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [availableHours, setAvailableHours] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -53,7 +64,7 @@ const BookAppointment = () => {
 
   const handleDateChange = (date) => {
     if (date) {
-      const dayOfWeek = date.toLocaleDateString('en-US', { weekday: 'long' });
+      const dayOfWeek = date.toLocaleDateString("en-US", { weekday: "long" });
       const formattedDate = `${dayOfWeek}, ${date.toLocaleDateString()}`;
       setFormattedDate(formattedDate);
       setFormData({
@@ -62,7 +73,7 @@ const BookAppointment = () => {
       });
       updateAvailableHours(date); // Update available hours when date changes
     } else {
-      setFormattedDate('');
+      setFormattedDate("");
       setFormData({
         ...formData,
         appointmentDate: null,
@@ -81,15 +92,16 @@ const BookAppointment = () => {
       const currentHour = now.getHours();
       const endOfDay = 22; // Assume appointments end at 10 PM
 
-      for (let hour = currentHour + 1; hour < endOfDay; hour++) { // Start from the next hour
-        hours.push(`${hour < 10 ? '0' : ''}${hour}`);
+      for (let hour = currentHour + 1; hour < endOfDay; hour++) {
+        // Start from the next hour
+        hours.push(`${hour < 10 ? "0" : ""}${hour}`);
       }
     } else {
       const startHour = selectedDate.getDay() === 6 ? 8 : 8; // Saturdays start at 8 AM, other days start at 8 AM
       const endHour = selectedDate.getDay() === 6 ? 12 : 22; // Saturdays end at 12 PM, other days end at 10 PM
 
       for (let hour = startHour; hour < endHour; hour++) {
-        hours.push(`${hour < 10 ? '0' : ''}${hour}`);
+        hours.push(`${hour < 10 ? "0" : ""}${hour}`);
       }
     }
 
@@ -104,7 +116,9 @@ const BookAppointment = () => {
   const validateMessage = (message) => {
     const wordCount = message.split(/\s+/).length;
     const numericCount = (message.match(/\d/g) || []).length;
-    const containsRequiredWords = requiredWords.some(word => message.toLowerCase().includes(word));
+    const containsRequiredWords = requiredWords.some((word) =>
+      message.toLowerCase().includes(word)
+    );
 
     return wordCount >= 20 && numericCount <= 4 && containsRequiredWords;
   };
@@ -115,24 +129,26 @@ const BookAppointment = () => {
 
     const currentDate = new Date();
     const selectedDate = new Date(formData.appointmentDate);
-    const [hours] = formData.appointmentTime.split(':').map(Number);
+    const [hours] = formData.appointmentTime.split(":").map(Number);
 
     if (selectedDate < currentDate.setHours(0, 0, 0, 0)) {
-      errors.date = 'Choose a day that is beyond today.';
+      errors.date = "Choose a day that is beyond today.";
     }
 
     if (hours < 8 || hours >= 22) {
-      errors.time = 'Appointment time must be between 8:00 AM and 10:00 PM.';
+      errors.time = "Appointment time must be between 8:00 AM and 10:00 PM.";
     }
 
     if (selectedDate.getDay() === 0) {
-      errors.date = 'Sorry, we don’t work on Sundays. Please choose another day.';
+      errors.date =
+        "Sorry, we don’t work on Sundays. Please choose another day.";
     }
 
     if (!formData.message) {
-      errors.message = 'Please enter a message.';
+      errors.message = "Please enter a message.";
     } else if (!validateMessage(formData.message)) {
-      errors.message = 'Message must be at least 20 words long, contain no more than 4 numeric characters, and include at least one of the required words: "appointment," "schedule," or "meeting".';
+      errors.message =
+        'Message must be at least 20 words long, contain no more than 4 numeric characters, and include at least one of the required words: "appointment," "schedule," or "meeting".';
     }
 
     if (Object.keys(errors).length) {
@@ -142,23 +158,23 @@ const BookAppointment = () => {
 
     setIsSubmitting(true);
 
-    let documentUrl = '';
+    let documentUrl = "";
     if (formData.document) {
       try {
         const fileRef = ref(storage, `documents/${formData.document.name}`);
         await uploadBytes(fileRef, formData.document);
         documentUrl = await getDownloadURL(fileRef);
       } catch (error) {
-        console.error('Error uploading document:', error);
-        toast.error('Failed to upload document. Please try again.');
+        console.error("Error uploading document:", error);
+        toast.error("Failed to upload document. Please try again.");
         setIsSubmitting(false);
         return;
       }
     }
 
-    const serviceID = 'service_13ygtrs';
-    const templateID = 'template_n21fa3e';
-    const publicKey = 'L2_7PSPdo8vlmJqDm';
+    const serviceID = "service_13ygtrs";
+    const templateID = "template_n21fa3e";
+    const publicKey = "L2_7PSPdo8vlmJqDm";
 
     const templateParams = {
       from_name: formData.name,
@@ -172,24 +188,24 @@ const BookAppointment = () => {
 
     emailjs.send(serviceID, templateID, templateParams, publicKey)
       .then(() => {
-        toast.success('Appointment booked successfully!');
+        toast.success("Appointment booked successfully!");
         setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          countryCode: '+1',
+          name: "",
+          email: "",
+          phone: "",
+          countryCode: "+1",
           appointmentDate: null,
-          appointmentTime: '',
-          message: '',
+          appointmentTime: "",
+          message: "",
           document: null,
         });
-        setFormattedDate('');
+        setFormattedDate("");
         setValidationErrors({});
         setIsSubmitting(false);
       })
       .catch((error) => {
-        console.error('Error:', error);
-        toast.error('Failed to book appointment. Please try again.');
+        console.error("Error:", error);
+        toast.error("Failed to book appointment. Please try again.");
         setIsSubmitting(false);
       });
   };
@@ -202,7 +218,10 @@ const BookAppointment = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Name <span className="text-red-500">*</span>
           </label>
           <input
@@ -219,7 +238,10 @@ const BookAppointment = () => {
         </div>
 
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="email"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Email <span className="text-red-500">*</span>
           </label>
           <input
@@ -236,7 +258,10 @@ const BookAppointment = () => {
         </div>
 
         <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="phone"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Phone Number <span className="text-red-500">*</span>
           </label>
           <div className="flex items-center">
@@ -268,7 +293,10 @@ const BookAppointment = () => {
         </div>
 
         <div>
-          <label htmlFor="appointmentDate" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="appointmentDate"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Appointment Date <span className="text-red-500">*</span>
           </label>
           <DatePicker
@@ -282,15 +310,18 @@ const BookAppointment = () => {
             placeholderText="Choose the date"
           />
           {formattedDate && (
-            <p className="text-gray-600 mt-2">
-              Selected Date: {formattedDate}
-            </p>
+            <p className="text-gray-600 mt-2">Selected Date: {formattedDate}</p>
           )}
-          {validationErrors.date && <p className="text-red-500 mt-2">{validationErrors.date}</p>}
+          {validationErrors.date && (
+            <p className="text-red-500 mt-2">{validationErrors.date}</p>
+          )}
         </div>
 
         <div>
-          <label htmlFor="appointmentTime" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="appointmentTime"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Appointment Time <span className="text-red-500">*</span>
           </label>
           <select
@@ -308,11 +339,16 @@ const BookAppointment = () => {
               </option>
             ))}
           </select>
-          {validationErrors.time && <p className="text-red-500 mt-2">{validationErrors.time}</p>}
+          {validationErrors.time && (
+            <p className="text-red-500 mt-2">{validationErrors.time}</p>
+          )}
         </div>
 
         <div>
-          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="message"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Message <span className="text-red-500">*</span>
           </label>
           <textarea
@@ -326,11 +362,16 @@ const BookAppointment = () => {
             className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
             placeholder="Enter your message"
           />
-          {validationErrors.message && <p className="text-red-500 mt-2">{validationErrors.message}</p>}
+          {validationErrors.message && (
+            <p className="text-red-500 mt-2">{validationErrors.message}</p>
+          )}
         </div>
 
         <div>
-          <label htmlFor="document" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="document"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
             Upload Document (optional)
           </label>
           <input
@@ -347,9 +388,11 @@ const BookAppointment = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow-sm hover:bg-blue-700 transition duration-150 ease-in-out ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow-sm hover:bg-blue-700 transition duration-150 ease-in-out ${
+            isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+          }`}
         >
-          {isSubmitting ? 'Submitting...' : 'Submit'}
+          {isSubmitting ? "Submitting..." : "Submit"}
         </button>
       </form>
 
