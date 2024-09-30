@@ -9,6 +9,8 @@ function BlogPost() {
   const { id } = useParams();
   const blog = blogData.find((b) => b.id === parseInt(id));
   const [comments, setComments] = useState(blog.comments || []);
+  
+  console.log(blog.image)
 
   if (!blog) return <div className="text-center py-8">Blog not found</div>;
 

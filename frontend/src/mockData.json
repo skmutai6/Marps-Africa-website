@@ -3,7 +3,7 @@
     "id": 1,
     "title": "The Rise of Quantum Computing in Cybersecurity",
     "date": "June 15, 2024",
-    "image": "/images/quantum-computing.jpeg",
+    "image": "/assets/quantum-computing.jpeg",
     "content": "<p>Quantum computing is revolutionizing the field of cybersecurity. As these powerful machines become more accessible, they're both a threat to current encryption methods and a potential solution for creating unbreakable codes...</p>",
     "comments": [
       {
@@ -38,6 +38,12 @@
         "name": "spookie",
         "content": "well informed",
         "date": "2024-09-19T14:04:17.154Z"
+      },
+      {
+        "id": 1727016506396,
+        "name": "Anonymous",
+        "content": "comment",
+        "date": "2024-09-22T14:48:26.463Z"
       }
     ]
   },
