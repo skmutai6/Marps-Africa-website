@@ -10,7 +10,7 @@ export default function About() {
     <div>
       {/* Banner Section */}
       <div className="relative w-full h-[300px] bg-cover bg-center"
-        style={{ backgroundImage: `url('/src/assets/About-Us-Hero-Image-1.webp')` }}>
+        style={{ backgroundImage: `url('/src/assets/aboutUs.jpeg')` }}>
         <div className="absolute inset-0 bg-black opacity-60"></div>
         <div className="relative z-10 flex flex-col items-start justify-center h-full text-white text-left p-6 md:p-10 lg:p-20">
           <div className="font-sans">
