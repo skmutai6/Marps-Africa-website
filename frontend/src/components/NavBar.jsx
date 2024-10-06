@@ -296,7 +296,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             <NavLink
               to="/appoitment"
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-gray-800"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-gray-800 sm:ml-4"
             >
               Book Appointment
             </NavLink>
