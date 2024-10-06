@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:3001", // Backend server address
+        target: "http://localhost:3001", // Blogs server address
         changeOrigin: true,
         secure: false,
       },
