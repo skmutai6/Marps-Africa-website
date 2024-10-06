@@ -12,6 +12,7 @@ import itsupport from '../assets/svgs/It-support-icon-5-2.svg';
 import commerce from '../assets/svgs/commerce.svg';
 import HomeServices from '../components/HomeServices';
 import ConsultingProcess from '../components/ConsultingProcess';
+import { Link } from "react-router-dom";
 
 const images = [
   {
@@ -193,9 +194,9 @@ function Home() {
                 <h2 className='text-white text-3xl md:text-4xl font-bold mb-3'>
                   Let's Build Your Website!
                 </h2>
-                <button className='inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-600 border border-blue-700 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'>
+                <Link to='/contact' className='inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap bg-blue-600 border border-blue-700 rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'>
                   Contact Us
-                </button>
+                </Link>
               </div>
             </div>
           </div>

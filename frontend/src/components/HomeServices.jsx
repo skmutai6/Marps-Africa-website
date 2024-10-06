@@ -10,6 +10,7 @@ import image7 from '../assets/handshake.png';
 import image8 from '../assets/website.jpeg';
 import image9 from '../assets/consult.jpeg';
 import image10 from '../assets/consultation.jpeg';
+import { Link } from 'react-router-dom';
 
 
 const tabs = ["Development", "Woo Commerce", "CRM Solutions", "Web Designing", "IT Support"];
@@ -55,27 +56,42 @@ const content = {
 const TabContent = ({ selectedTab }) => {
   const { images, description } = content[selectedTab] || {};
   return (
-    <div className="grid lg:grid-cols-4 gap-8 mt-8"> {/* Responsive grid for large screens */}
+    <div className="grid lg:grid-cols-4 gap-8 mt-8">
+      {" "}
+      {/* Responsive grid for large screens */}
       {/* Image Section */}
-      <div className="flex flex-col md:flex-row lg:col-span-2 md:space-x-4 w-full"> {/* Flexbox for responsiveness */}
+      <div className="flex flex-col md:flex-row lg:col-span-2 md:space-x-4 w-full">
+        {" "}
+        {/* Flexbox for responsiveness */}
         {images.map((image, idx) => (
-          <div key={idx} className="flex-1 bg-white shadow-md rounded-md p-4 mb-4 md:mb-0"> {/* Make items flex evenly */}
+          <div
+            key={idx}
+            className="flex-1 bg-white shadow-md rounded-md p-4 mb-4 md:mb-0"
+          >
+            {" "}
+            {/* Make items flex evenly */}
             <img
               src={image.imgSrc}
               alt={image.title}
               className="w-full h-[200px] object-cover rounded-md"
             />
-            <div className="text-center mt-4 font-semibold text-gray-700">{image.title}</div> {/* Added font styling */}
+            <div className="text-center mt-4 font-semibold text-gray-700">
+              {image.title}
+            </div>{" "}
+            {/* Added font styling */}
           </div>
         ))}
       </div>
       {/* Text Section */}
-      <div className="lg:col-span-2 bg-white shadow-md rounded-md p-8 flex flex-col justify-between"> 
+      <div className="lg:col-span-2 bg-white shadow-md rounded-md p-8 flex flex-col justify-between">
         <h2 className="text-3xl font-bold mb-4">{selectedTab}</h2>
         <p className="text-gray-600 text-md mb-4">{description}</p>
-        <button className="self-start mt-2 bg-blue-500 text-white px-6 py-3 rounded-full shadow hover:bg-blue-600 transition duration-300">
+        <Link
+          to="/services/software-development"
+          className="self-start mt-2 bg-blue-500 text-white px-6 py-3 rounded-full shadow hover:bg-blue-600 transition duration-300"
+        >
           Learn More
-        </button>
+        </Link>
       </div>
     </div>
   );

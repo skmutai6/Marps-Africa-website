@@ -46,12 +46,12 @@ const Footer = () => {
           </div>
           <div>
             <h3 className="text-yellow-400 text-lg sm:text-xl font-bold">Company</h3>
-            <ul className="space-y-2 text-gray-300 text-sm sm:text-base">
-              <li className="hover:text-blue-500 cursor-pointer transition duration-300">About Us</li>
-              <li className="hover:text-blue-500 cursor-pointer transition duration-300">Careers</li>
-              <li className="hover:text-blue-500 cursor-pointer transition duration-300">Partners</li>
-              <li className="hover:text-blue-500 cursor-pointer transition duration-300">Blog</li>
-              <li className="hover:text-blue-500 cursor-pointer transition duration-300">Contact</li>
+            <ul className="flex flex-col space-y-2 text-gray-300 text-sm sm:text-base">
+              <NavLink to="/about" className="hover:text-blue-500 cursor-pointer transition duration-300">About Us</NavLink>
+              <NavLink to="/careers" className="hover:text-blue-500 cursor-pointer transition duration-300">Careers</NavLink>
+              <NavLink to="/partners" className="hover:text-blue-500 cursor-pointer transition duration-300">Partners</NavLink>
+              <NavLink to="/blogs" className="hover:text-blue-500 cursor-pointer transition duration-300">Blog</NavLink>
+              <NavLink to="/contact" className="hover:text-blue-500 cursor-pointer transition duration-300">Contact</NavLink>
             </ul>
           </div>
         </div>
