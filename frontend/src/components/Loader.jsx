@@ -1,5 +1,5 @@
 import React from 'react';
-import marpslogo from "../assets/marpslogo.png";
+import marpsxlogo2 from "../assets/marpsxlogo2.jpeg";
 
 const Loader = () => {
   return (
@@ -9,7 +9,7 @@ const Loader = () => {
     <div className="loader-container">
       <div className="spinner-border">
         <div className="spinner">
-          <img src={marpslogo} alt="logo" className="loader-logo" />
+          <img src={marpsxlogo2} alt="logo" className="loader-logo" />
         </div>
       </div>
     </div>
